@@ -1,0 +1,296 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package si4_lab5_2;
+
+/**
+ * Created on 15-Mar-2016
+ * @author Kevin
+ */
+public class BSTree {
+    //the only private field
+    private TNode root;
+    
+    //Constructor1
+    public BSTree(){
+        root = null;
+    }
+    
+    //helper for the second constructor - borrowed and modified from Stackoverflow
+    private TNode sortedInput(int sortedArray[], int first, int last){
+        if (first>last){
+            return null;
+        }
+        //finding the middle of the array
+        int middle = (first +last)/2;
+        //turn the new middle point into a TNode
+        TNode temp = new TNode(sortedArray[middle],null,null);
+        //continue finding more middle points from either side of the first middle point
+        temp.left = sortedInput(sortedArray,first,middle-1);
+        temp.right = sortedInput(sortedArray,middle+1,last);
+        return temp;
+    }
+    
+    //Constructor 2
+    public BSTree(int[] sortedInput){
+        root = sortedInput(sortedInput,0,sortedInput.length-1);
+    }
+    
+    //1Returns true if  integer v is  stored  in  some node
+    //of this BSTree.  It returns false otherwise
+    public boolean isIn(int v){
+        if(root==null){
+            return false;
+        }
+        TNode N = root;
+
+        while(true){
+            //start with the node (or root in the first run)
+
+            //case where v is in BS
+            if(v==N.element){
+                return true;
+            }
+                
+            //go to the left
+            else if(v < N.element){
+                if(N.left==null)
+                    return false;
+                N=N.left;
+            }
+            //go to the right 
+            else if(v > N.element){
+                if(N.right==null)
+                    return false;
+                N=N.right;
+            } 
+        }
+    }
+    
+    
+    //2 Adds v to this BSTree if v was not already an 
+    //element of this BSTree.  It does nothing otherwise
+    public void add(int v){
+        if(root==null)
+            root=new TNode(v,null,null);
+        else{
+            TNode temp=root;
+            while(true){
+                if(v<temp.element){
+                    if(temp.left==null){
+                        temp.left= new TNode(v,null,null);
+                        return;
+                    }
+                    else
+                        temp=temp.left;
+                }
+                else if(v>temp.element){
+                    if(temp.right==null){
+                        temp.right= new TNode(v,null,null);
+                        return;
+                    }
+                    else
+                        temp=temp.right;
+                }
+                else
+                    return;
+            }
+        }
+
+    }
+    
+    //3 Removes v from this BSTree if v was an element
+    //of this BSTree.  It does nothing otherwise
+    public void remove (int v){
+        //set the initial node as root
+        TNode temp = root;
+        //see if v is in the BST
+        //if(root.element == v){
+            
+        //}
+        if(this.isIn(v)){
+            removeHelper(temp,v);
+        }
+    }
+    
+    //Helper for remove, from lecture
+    private TNode removeMin(TNode t){
+        if (t.left != null){
+            t.left = removeMin(t.left);
+            return t;
+        }
+        else
+            return t.right;
+    }
+    
+    //Helper for remove, from lecture
+    private TNode findMin (TNode t){
+        while(t.left != null){
+            t=t.left;
+        }
+        return t;
+    }
+    
+    //Helper for remove, from lecture
+    private TNode removeHelper(TNode t, int v){
+        if (v<t.element){
+            t.left = removeHelper(t.left, v);    
+        }
+        else if(v>t.element){
+            t.right = removeHelper (t.right,v);
+        }
+        else if(t.left != null && t.right != null){
+            //Deleteing a node which has 2 children
+            t.element = (findMin(t.right)).element;
+            t.right = removeMin(t.right);
+        }
+        else{
+            //deleting node with 1 or 0 children
+            t= (t.left != null)? t.left:t.right;
+        }
+        return t;
+    }
+    
+    
+    
+    
+    
+    //4 Returns the number of integers stored inthis BSTree
+    public int size(){
+        int size=1;
+        TNode N = this.root;
+        if(N == null){
+            return 0;
+        }
+        size = size + size(N.left) + size(N.right);
+        return size;
+    }
+    // Helper function for size
+    private int size(TNode t){
+        if(t==null){
+            return 0;
+        }
+        else{
+            return(1+size(t.left)+size(t.right));
+        }
+    }
+    
+
+   //5Returns the height ofthis BSTree
+    public int height(){
+            if(root == null){
+                return 0;
+            }
+
+            int heightL = height(root.left);
+            int heightR = height(root.right);
+
+
+            if(heightL >heightR){
+                return heightL;
+            }
+            else{
+                return heightR;
+            }
+        }
+        private int height(TNode t){
+            if(t==null){
+                return 0;
+            }
+            int heightL = 1 + height(t.left);
+            int heightR = 1 + height(t.right);
+            if(heightL >heightR){
+                return heightL;
+            }
+            else{
+                return heightR;
+            }
+
+        }
+    
+    
+    //6Prints the integers stored in the subtree rooted in t,
+    //in increasing order.  This method is recursive.  Note 
+    //that this method is a "helper" for the next public method
+    private void printRec (TNode t){
+        if (t!= null){
+            printRec(t.left);
+            System.out.println(t.element);
+            printRec(t.right);
+        }
+    }
+    
+    //7Prints the integers stored in this BSTree in increasing order.
+    //This method invokes printRec(root)
+    public void printRec(){
+        printRec(root);
+    }
+    
+    //8Prints the integers stored in this BSTree in increasing  order.   
+    //This  method  is non recursive and  uses a stack to implement
+    //the in order traversal (use the class MyStack).  See tutorial notes for the algorithm
+    //based on the tutorial - myStack taken and modified form the internet
+    public void printNonRec(){
+        MyStack s = new MyStack(); 
+        
+        //push the entire left side of tree
+        TNode node = root;
+        while (node != null){
+            s.push(node);
+            node = node.left;
+        } 
+        // Keep running until the entire stack is emptied
+        while (s.getSize() > 0){
+            // Visit the top node
+            node = (TNode)s.pop(); // use (TNode)to change the type of s
+            //actual printing
+            System.out.println(node.element);
+            // Find the next node
+            if (node.right != null){
+                node = node.right;
+                // finding the min on the right node again
+                while (node != null)
+                {
+                    s.push(node);
+                    node = node.left;
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    //9Prints the integers stored inthis BSTreein level order, using a queue
+    //(use the class MyQueue).  See tutorial notes for the algorithm
+    public void printLevelOrder(){
+        if(root == null){
+            System.out.println("BSTree empty");
+            return;
+        }
+        levelOrder(root);   
+    }
+    
+    //Helper for above method printLevelOrder
+    private void levelOrder(TNode root){
+        MyQueue q = new MyQueue();
+        
+        q.enqueue(root);
+        while(!q.isEmpty()){
+            TNode n=q.dequeue();
+            System.out.println(n.element);
+            
+            if(n.left!=null)
+                q.enqueue(n.left);
+            if(n.right!=null)
+                q.enqueue(n.right);
+        }
+    }
+    
+}

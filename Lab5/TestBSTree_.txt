@@ -1,0 +1,171 @@
+/**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        
+		//FORMAT
+		//>>Expected Result
+		//Actual Output
+		
+		
+        
+        int[] L1 = {2,3,9,11,30,31,39,44};// size=8
+        int[] L2 = {4};
+        int[] L3 = {7,9,10,11,12};
+        int[] L4 = {10,20,30,40,50,60,70}; //size=7
+        int[] L5 = {-20,0,20}; //size=3
+        
+        BSTree a = new BSTree();
+        BSTree b = new BSTree(L1);
+        BSTree c = new BSTree(L2);
+        BSTree d = new BSTree(L3);
+        BSTree e = new BSTree(L4);
+        BSTree f = new BSTree(L5);
+        
+        BSTree g = new BSTree(); //0
+        BSTree h = new BSTree(L2);//
+        BSTree i = new BSTree(L5);
+        
+        g.add(1);
+        g.add(3);
+        g.add(3);//add number already in
+        g.add(10);
+        g.add(40);
+        g.add(20);
+        g.add(60);//0,1,3,10,20,40,60
+        
+        h.add(8);
+        h.remove(333); //not there
+        h.remove(8); //delete node w/ 0 children
+        h.add(8);//4,8
+        //h.remove(4);//8
+        
+        i.add(5);
+        i.add(30);
+        i.add(-30);
+        i.add(25);
+        i.remove(20);//remove node w/ 2 children
+        i.remove(-20); // remove node w/ 1 child
+        //0,5
+        
+        System.out.println("==================== IsIn");
+        System.out.println("=========================");
+        System.out.println(">>false");
+        System.out.println(a.isIn(1));//1
+        System.out.println(">>false");
+        System.out.println(b.isIn(-2));//8
+        System.out.println(">>true");
+        System.out.println(c.isIn(4));
+        System.out.println(">>true");
+        System.out.println(g.isIn(40));
+        System.out.println(">>false");//
+        System.out.println(i.isIn(20));
+        
+        //TEST 1
+        System.out.println("==================== Size");
+        System.out.println("=========================");
+        System.out.println(">>0");
+        System.out.println(a.size());
+        System.out.println(">>8");
+        System.out.println(b.size());//8
+        System.out.println(">>1");
+        System.out.println(c.size());//1
+        System.out.println(">>5");
+        System.out.println(d.size());
+        System.out.println(">>7");
+        System.out.println(e.size());
+        System.out.println(">>3");
+        System.out.println(f.size());
+        System.out.println(">>6");//_6
+        System.out.println(g.size());
+        System.out.println(">>2");//_2
+        System.out.println(h.size());
+        System.out.println(">>5");
+        System.out.println(i.size());
+        
+        System.out.println("==================== Height");
+        System.out.println("===========================");
+        System.out.println(">>0");
+        System.out.println(a.height());
+        System.out.println(">>3");
+        System.out.println(b.height());
+        System.out.println(">>0");
+        System.out.println(c.height());
+        System.out.println(">>2");
+        System.out.println(d.height());
+        System.out.println(">>2");
+        System.out.println(e.height());
+        System.out.println(">>1");
+        System.out.println(f.height());
+        System.out.println(">>4");
+        System.out.println(g.height());
+        System.out.println(">>1");//_1
+        System.out.println(h.height());
+        System.out.println(">>2");
+        System.out.println(i.height());
+        
+        System.out.println("==================== Print Rec");
+        System.out.println("==============================");
+        System.out.println(">>null");
+        a.printRec();
+        System.out.println(">>2,3,9,11,30,31,39,44");
+        b.printRec();
+        System.out.println(">>4");
+        c.printRec();
+        System.out.println(">>7,9,10,11,12");
+        d.printRec();
+        System.out.println(">>10,20,30,40,50,60,70");
+        e.printRec();
+        System.out.println(">>-20,0,20");
+        f.printRec();
+        System.out.println(">>1,3,10,20,40,60");
+        g.printRec();//_missing 0
+        System.out.println(">>4,8");
+        h.printRec();//_added 4
+        System.out.println(">>-30,0,5,25,30");
+        i.printRec();
+        
+        
+        
+        System.out.println("==================== Print NonRec");
+        System.out.println("=================================");
+        System.out.println(">>null");
+        a.printNonRec();
+        System.out.println(">>2,3,9,11,30,31,39,44");
+        b.printNonRec();
+        System.out.println(">>4");
+        c.printNonRec();
+        System.out.println(">>7,9,10,11,12");
+        d.printNonRec();
+        System.out.println(">>10,20,30,40,50,60,70");
+        e.printNonRec();
+        System.out.println(">>-20,0,20");
+        f.printNonRec();
+        System.out.println(">>1,3,10,20,40,60");
+        g.printNonRec();//_missing 0
+        System.out.println(">>4,8");
+        h.printNonRec();//_added 4
+        System.out.println(">>-30,0,5,25,30");
+        i.printNonRec();
+        
+        System.out.println("==================== Print Level Order");
+        System.out.println("======================================");
+        System.out.println(">>null");
+        a.printLevelOrder();
+        System.out.println(">>30,9,39,3,11,31,44,2");
+        b.printLevelOrder();
+        System.out.println(">>4");
+        c.printLevelOrder();
+        System.out.println(">>10,7,11,9,12");
+        d.printLevelOrder();
+        System.out.println(">>40,20,60,10,30,50,70");
+        e.printLevelOrder();
+        System.out.println(">>0,-20,20");
+        f.printLevelOrder();
+        System.out.println(">>1,3,10,40,20,60");
+        g.printLevelOrder();
+        System.out.println(">>4,8");
+        h.printLevelOrder();
+        System.out.println(">>0,-30,25,5,30");
+        i.printLevelOrder();
