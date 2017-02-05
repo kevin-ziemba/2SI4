@@ -1,0 +1,93 @@
+package si4_lab3;
+import java.lang.Math;
+import java.math.BigInteger;
+
+public class TestHugeInteger {
+    public static void main(String[] args) {
+        
+        
+        
+        HugeInteger a  = new HugeInteger("50001234");
+        HugeInteger b = new HugeInteger("80008888");
+        HugeInteger d  = new HugeInteger("567891233110");
+        HugeInteger e = new HugeInteger("11378767");
+        HugeInteger f  = new HugeInteger("3");
+        HugeInteger g = new HugeInteger("-2");
+        HugeInteger h = new HugeInteger("-50001234");
+        HugeInteger i = new HugeInteger("-100010000");
+        
+        BigInteger aB = new BigInteger("50001234");
+        BigInteger bB = new BigInteger("80008888");
+        BigInteger dB = new BigInteger("567891233110");
+        BigInteger eB = new BigInteger("11378767");
+        BigInteger fB = new BigInteger("3");
+        BigInteger gB = new BigInteger("-2");
+        BigInteger hB = new BigInteger("-50001234");
+        BigInteger iB = new BigInteger("-100010000");
+        
+        
+        HugeInteger a2 = a.add(b); BigInteger a2B = aB.add(bB);
+        HugeInteger b2= b.add(a); BigInteger b2B = bB.add(aB);
+        HugeInteger a3 = a.subtract(b); BigInteger a3B = aB.subtract(bB);
+        HugeInteger b3= b.subtract(a);BigInteger b3B = bB.subtract(aB);
+        
+        HugeInteger d2 = d.add(e); BigInteger d2B = dB.add(eB);
+        HugeInteger d3= d.subtract(e);BigInteger d3B = dB.subtract(eB);
+        HugeInteger f2 = f.add(g); BigInteger f2B =fB.add(gB);
+        HugeInteger f3= f.subtract(g);BigInteger f3B = fB.subtract(gB);
+        HugeInteger h2 = h.add(i); BigInteger h2B =hB.add(iB);
+        HugeInteger h3= h.subtract(i);BigInteger h3B = hB.subtract(iB);
+        HugeInteger i2 = i.add(f); BigInteger i2B =iB.add(fB);
+        HugeInteger i3= i.subtract(f);BigInteger i3B = iB.subtract(fB);
+        
+        System.out.println( "========================Adding, and subtraction");
+        System.out.println( a2.toString() +" == "+ a2B.toString());
+        System.out.println( b2.toString() +" == "+ b2B.toString());
+        System.out.println( a3.toString() +" == "+ a3B.toString());
+        System.out.println( b3.toString() +" == "+ b3B.toString());
+        System.out.println( d2.toString() +" == "+ d2B.toString());
+        System.out.println( d3.toString() +" == "+ d3B.toString());
+        System.out.println( f2.toString() +" == "+ f2B.toString());
+        System.out.println( f3.toString() +" == "+ f3B.toString()); 
+        System.out.println( h2.toString() +" == "+ h2B.toString());
+        System.out.println( h3.toString() +" == "+ h3B.toString());
+        System.out.println( i2.toString() +" == "+ i2B.toString());
+        System.out.println( i3.toString() +" == "+ i3B.toString());
+        System.out.println( "========================Comparisons");
+        
+        System.out.println(a.compareTo(b)+" == "+ aB.compareTo(bB));
+        System.out.println(b.compareTo(a)+" == "+ bB.compareTo(aB));
+        System.out.println(a.compareTo(a)+" == "+ aB.compareTo(aB));
+        System.out.println(f.compareTo(h)+" == "+ fB.compareTo(hB));
+        System.out.println(g.compareTo(h)+" == "+ gB.compareTo(hB));
+        System.out.println(i.compareTo(a)+" == "+ iB.compareTo(aB));
+        
+        System.out.println( "========================Multiply");
+        
+        HugeInteger e2 = a.multiply(b); BigInteger e2B = aB.multiply(bB);
+        HugeInteger e3 = e.multiply(e); BigInteger e3B = eB.multiply(eB);
+        HugeInteger a4 = a.multiply(b); BigInteger a4B = aB.multiply(bB);
+        HugeInteger f4 = f.multiply(h); BigInteger f4B = fB.multiply(hB);
+        HugeInteger f5 = f.multiply(g); BigInteger f5B = fB.multiply(gB);
+        HugeInteger g4 = g.multiply(e); BigInteger g4B = gB.multiply(eB);
+        HugeInteger i4 = i.multiply(g); BigInteger i4B = iB.multiply(gB);
+        
+        System.out.println( e2.toString() +" == "+ e2B.toString());
+        System.out.println( e3.toString() +" == "+ e3B.toString());
+        System.out.println( a4.toString() +" == "+ a4B.toString());
+        System.out.println( f4.toString() +" == "+ f4B.toString());
+        System.out.println( f5.toString() +" == "+ f5B.toString());
+        System.out.println( g4.toString() +" == "+ g4B.toString());
+        System.out.println( i4.toString() +" == "+ i4B.toString());
+        
+        
+        System.out.println( "========================Contructor");
+        HugeInteger j = new HugeInteger(1);
+        HugeInteger k = new HugeInteger(10);
+        HugeInteger l = new HugeInteger(100);
+        System.out.println( j.toString());
+        System.out.println( k.toString());
+        System.out.println( l.toString());
+        return;
+    }
+}

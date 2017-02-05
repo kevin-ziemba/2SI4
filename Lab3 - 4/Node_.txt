@@ -1,0 +1,36 @@
+package si4_lab3;
+
+/**
+ *
+ * @author Kevin
+ */
+class Node{
+    public int num;
+    public Node next;
+    public Node prev;
+
+    public Node(){
+        num=0;
+        next =null;
+        prev =null;
+    }
+    public Node(int number, Node nextLink, Node prevLink){
+        num=number;
+        next=nextLink;
+        prev=prevLink;
+    }
+    public void setNumber(int number){
+        num=number;
+    }
+    public void setNext(Node nextLink){
+        next= nextLink;
+    }
+    public void setPrev(Node prevLink){
+        prev = prevLink;
+    }
+    public void setData(int number,Node nextLink,Node prevLink){
+        num = number;
+        next= nextLink;
+        prev=prevLink;
+    }
+}

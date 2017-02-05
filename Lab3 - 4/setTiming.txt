@@ -1,0 +1,51 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package si4_lab3;
+import java.lang.Math;
+import java.math.BigInteger;
+import java.lang.Object;
+import java.util.Random;
+
+/**
+ * Created on 19-Mar-2016
+ * @author Kevin
+ */
+public class setTiming {
+        public static void main(String[] args) {
+        HugeInteger huge1, huge2, huge3;
+        BigInteger h1,h2,h3;
+        long startTime, endTime;
+        double runTime=0.0;
+        int MAXNUMINTS = 100;//=100
+        int MAXRUN = 3000000;
+        int n =10;
+        int cc =0;
+
+        
+        for(int numInts=0; numInts < MAXNUMINTS; numInts++){
+            
+            huge1 = new HugeInteger(n);         //creates a random integer of n digits
+            huge2 = new HugeInteger(n);      //creates a random integer of n digits
+            h1 = new BigInteger(huge1.toString());
+            h2 = new BigInteger(huge2.toString());
+            
+            startTime = System.currentTimeMillis();
+            for(int numRun=0; numRun < MAXRUN; numRun++){ 
+                h3 = h1.subtract(h2); }
+            endTime = System.currentTimeMillis();
+            runTime +=(double) (endTime - startTime)/((double) MAXRUN);
+            if(numInts==2){
+                System.out.println(endTime - startTime);
+            }
+        }
+        
+    runTime = runTime/((double)MAXNUMINTS);
+    
+    System.out.println(runTime);
+    
+    }
+}
