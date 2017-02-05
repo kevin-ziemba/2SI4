@@ -1,0 +1,165 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+// started jan 26
+package lab2;
+
+/**
+ *
+ * @author Kevin
+ *
+ */
+
+public class WordLinkedList {
+    private int size_of_list;
+    private Node head;// = new Node<E>(null,null);
+    
+    
+    public WordLinkedList(){
+    //constructs an emptyWordLinkedList("empty" meanswith zero words
+        size_of_list=0;
+        head =new Node("",null); //string is "" so that the header can be compared with
+    }
+    public WordLinkedList(String[] arrayOfWords){
+        size_of_list = 0;
+        head =new Node("",null);
+        
+        for(int i =0;i<arrayOfWords.length;i++){
+            this.insert(arrayOfWords[i]);
+        }
+    }
+    
+    public int getSize(){
+        return this.size_of_list;
+    }
+    
+    public String getWordAt(int i) throws IndexOutOfBoundsException{
+        ///what if list is empty
+        if( !(0<=i && i<=this.getSize()-1 )){//if not within the bounds
+            throw new IndexOutOfBoundsException();
+        }
+        Node p;
+        p=head.next;
+
+        for(int k=0;k<i;k++){
+            p=p.next;
+        }
+        return p.str;
+    }
+    
+    public void insert(String newword){
+        Node p;
+        for(p=head; p!= null ; p=p.next){
+            //handler if newword belongs at the end of the list
+            if(p.next == null ){
+                Node h  =new Node(newword ,null);
+                p.next=h;
+                
+                size_of_list+=1;
+                return;
+                //insert @next next->null
+            }
+            // handler if newword already occurs in list
+            if(p.next.str.equals(newword)){
+                return;
+            }
+            // handler if newword belongs in first or middle positions
+            if(p.str.compareTo(newword)<0 && p.next.str.compareTo(newword)>0){
+                Node h = new Node(newword,p.next);
+                p.next=h;
+                
+                size_of_list+=1;
+                return;
+            }              
+        }
+    }
+    public int find(String word){
+        Node p;
+        int index=0;
+        for(p=head.next; p!=null; p=p.next){
+            if(p.str.equals(word)){
+                return index;
+            }            
+            index+=1;
+        }
+        return -1; 
+    }
+    public String remove(int i) throws IndexOutOfBoundsException{
+        if( !(0<=i && i<=this.getSize()-1 )){//if not within the bounds, or size is 0
+            throw new IndexOutOfBoundsException();
+        }
+        
+        Node p;
+        p=head;
+
+        for(int k=0;k<i;k++){
+            p=p.next;
+        }
+        String removedWord = p.next.str;
+        p.next= p.next.next;
+        
+        size_of_list -=1;
+        return removedWord;
+        
+        
+
+    }
+    public void mergeTo(WordLinkedList that){
+        Node p1=this.head;
+        Node p2=that.head.next;
+        Node h2= new Node();
+        while(p2 != null){
+            //handler for case word from that belongs at the end of this
+            if(p1.next==null && !p1.str.equals(p2.str) ){
+                h2.setNext(p2);
+                
+                p2=p2.next;
+                
+                h2.next.setNext(p1.next);
+                p1.setNext(h2.next);
+                
+                this.size_of_list +=1;
+                that.size_of_list -=1;
+            }
+            //handler for case word from that needs to be inserted in middle or start of this
+            else if(p1.str.compareTo(p2.str) < 0 && p2.str.compareTo(p1.next.str) < 0){
+                h2.setNext(p2);
+                p2=p2.next;
+                
+                h2.next.setNext(p1.next);
+                p1.setNext(h2.next);
+                
+                p1=p1.next;
+                
+                h2.setNext(null);
+                this.size_of_list +=1;
+            }
+            //handler for case word exists in both this and that
+            else if(p1.str.equals(p2.str)){
+                p2 = p2.next;
+            }
+            //handler for case word from that does not need to be inserted or skipped now
+            else{
+                p1 = p1.next;
+            }
+        }
+        that.size_of_list=0;
+        that.head.next =null;
+    }
+    
+    public String toString(){
+        String linked_list_str;
+        linked_list_str = new String();
+        Node p;
+        p=head.next;
+
+        for(int k=0;k<size_of_list;k++){
+            linked_list_str = linked_list_str + "\n" + p.str;
+            p=p.next;
+        }        
+        return linked_list_str;
+        
+    }
+}
