@@ -1,0 +1,187 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package q1;
+
+
+public class TestWordList {
+
+    public static void main(String[] args) {
+        
+        //Results are as shown:
+        //Expected results:
+        //a
+        //b
+        //c
+        //Actual Results:
+        //a
+        //b
+        //c
+        
+        int cap=6; //capacity
+        
+        
+        
+        
+        String[] words1={"bb","hh","ii","ww"}; //sorted, used to test insert & remove
+	String[] words2={"ii","hh","ww","bb"}; //unsorted, without repetitions - to test constructor 2
+        String[] words3={"ii","ii","hh","bb","hh","ww"};//unsorted with repetitions - to test constructor 2
+        String[] words4={"aa","bb","cc","dd","kk","pp","xx","yy"};//to test sublist & find
+        
+        String s2="aa";//to be inserted at start
+        String s3="ee";//to be inserted in middle
+        String s4="zz";//to be inserted at end
+        String s5="ii";//already exists in list
+        
+        System.out.println("==Constructor 1========================================================");
+        WordList o1 = new WordList(cap);
+        System.out.println("capacity="+o1.getCapacity()+" --Expected:6");
+        System.out.println("size="+o1.getSize()+" --Expected:0");  
+        
+        
+        
+        System.out.println("\n==Constructor 2===================================================");
+        System.out.println("Expected for below 3: Size=4,\nbb\nhh\nii\nww");
+        
+        System.out.println("==sorted==");
+        WordList o2 = new WordList(words1);
+        System.out.println(o2.toString());
+        System.out.println("capacity="+o2.getCapacity()+" --Expected:8");
+        System.out.println("size="+o2.getSize()+" --Expected:4");  
+        
+        System.out.println("==unsorted==");
+        WordList o3 = new WordList(words2);
+        System.out.println(o3.toString());
+        System.out.println("capacity="+o3.getCapacity()+" --Expected:8");
+        System.out.println("size="+o3.getSize()+" --Expected:4"); 
+        
+        System.out.println("==unsorted, with repetitions==");
+        WordList o4 = new WordList(words3);
+        System.out.println(o4.toString());
+        System.out.println("capacity="+o4.getCapacity()+" --Expected:12");
+        System.out.println("size="+o4.getSize()+" --Expected:4");
+        
+        
+        System.out.println("\n==getWordAt====================================================");
+        
+        System.out.println("==index within bound==");
+        System.out.println(o2.getWordAt(2));
+        System.out.println("Expected: ii");
+        
+        
+        System.out.println("==index below bound==");
+        try{
+            System.out.println(o2.getWordAt(-1));
+            System.out.println("Expected: out of bounds");
+        }
+        catch(ArrayIndexOutOfBoundsException e){System.out.println(e);}
+        try{
+        System.out.println("==index above bound==");
+        System.out.println(o2.getWordAt(5));
+        System.out.println("Expected: out of bounds");
+        }catch(ArrayIndexOutOfBoundsException e){System.out.println(e);}
+        
+        
+        System.out.println("\n==insert===================================================");
+        System.out.println("==insert at beginning==\nExpected:\naa\nbb\nhh\nii\nww");
+        o2.insert(s2);
+        System.out.println(o2.toString());
+        System.out.println("capacity="+o2.getCapacity()+" --Expected:8");
+        System.out.println("size="+o2.getSize()+" --Expected:5");
+        
+        System.out.println("==insert at middle==\nExpected:\naa\nbb\nee\nhh\nii\nww");
+        o2.insert(s3);
+        System.out.println(o2.toString());
+        System.out.println("capacity="+o2.getCapacity()+" --Expected:8");
+        System.out.println("size="+o2.getSize()+" --Expected:6"); 
+        
+        System.out.println("==insert at end==\nExpected:\naa\nbb\nee\nhh\nii\nww\nzz");
+        o2.insert(s4);
+        System.out.println(o2.toString());
+        System.out.println("capacity="+o2.getCapacity()+" --Expected:8");
+        System.out.println("size="+o2.getSize()+" --Expected:7");  
+        
+        System.out.println("==word already in==\nExpected:\naa\nbb\nee\nhh\nii\nww\nzz");
+        o2.insert(s5);
+        System.out.println(o2.toString());
+        System.out.println("capacity="+o2.getCapacity()+" --Expected:8");
+        System.out.println("size="+o2.getSize()+" --Expected:7");
+        
+        System.out.println("==insert in empty==\nExpected:\naa");
+        o1.insert(s2);
+        System.out.println(o1.toString());
+        System.out.println("capacity="+o1.getCapacity()+" --Expected:6");
+        System.out.println("size="+o1.getSize()+" --Expected:1");
+        
+        
+        System.out.println("\n==remove=================================================");
+ 
+        System.out.println("==remove at beginning==\nExpected:\nbb\nee\nhh\nii\nww\nzz");
+        o2.remove(s2);
+        System.out.println(o2.toString());
+        System.out.println("capacity="+o2.getCapacity()+" --Expected:8");
+        System.out.println("size="+o2.getSize()+" --Expected:6");
+        
+        System.out.println("==remove at middle==\nExpected:\nbb\nhh\nii\nww\nzz");
+        o2.remove(s3);
+        System.out.println(o2.toString());
+        System.out.println("capacity="+o2.getCapacity()+" --Expected:8");
+        System.out.println("size="+o2.getSize()+" --Expected:5"); 
+        
+        System.out.println("==remove at end==\nExpected:\nbb\nhh\nii\nww");
+        o2.remove(s4);
+        System.out.println(o2.toString());
+        System.out.println("capacity="+o2.getCapacity()+" --Expected:8");
+        System.out.println("size="+o2.getSize()+" --Expected:4");  
+        
+        System.out.println("==word not in==\nExpected:\nbb\nhh\nii\nww");
+        o2.remove(s4);
+        System.out.println(o2.toString());
+        System.out.println("capacity="+o2.getCapacity()+" --Expected:8");
+        System.out.println("size="+o2.getSize()+" --Expected:4");
+        
+        System.out.println("\n==sublist AND countInRange======================================================");
+        WordList o5 = new WordList(words4);
+        
+        System.out.println("==empty list from empty list=============");
+        System.out.println("Expected:\nempty");
+        WordList o6 = o5.sublist('e', 'i');
+        System.out.println(o6.toString());
+        System.out.println("capacity="+o6.getCapacity()+" --Expected:any positive");
+        System.out.println("size="+o6.getSize()+" --Expected:0");  
+        System.out.println("countInRange="+o5.countInRange('e','i')+" --Expected:0"); 
+         
+        System.out.println("\n===empty list from non empty list=======");
+        System.out.println("Expected:\nempty");
+        WordList o7 = o5.sublist('e', 'i');
+        System.out.println(o7.toString());
+        System.out.println("capacity="+o7.getCapacity()+" --Expected:any positive");
+        System.out.println("size="+o7.getSize()+" --Expected:0"); 
+        System.out.println("countInRange="+o5.countInRange('e','i')+" --Expected:0"); 
+        
+        System.out.println("\n====non empty list from non empty list=======");
+        System.out.println("Expected:\ndd\nkk\npp\nxx");
+        WordList o8 = o5.sublist('d', 'x');
+        System.out.println(o8.toString());
+        System.out.println("capacity="+o8.getCapacity()+" --Expected: 8");
+        System.out.println("size="+o8.getSize()+" --Expected:4"); 
+        System.out.println("countInRange="+o5.countInRange('d','x')+" --Expected:4"); 
+        
+        System.out.println("\n===non-empty sublist words starting with init and fin are not in list==");
+        System.out.println("Expected:\nkk\npp");
+        WordList o9 = o5.sublist('e', 'w');
+        System.out.println(o9.toString());
+        System.out.println("capacity="+o9.getCapacity()+" --Expected: 4");
+        System.out.println("size="+o9.getSize()+" --Expected:2"); 
+        System.out.println("countInRange="+o5.countInRange('e','w')+" --Expected:2"); 
+        
+        
+        
+    }//end main
+}//end class
+
+
+
+

@@ -1,0 +1,258 @@
+package q1;
+
+
+/**
+ *
+ * @author Kevin
+ */
+public class WordList {
+    private int size_of_list;
+    //double myArray[] = new double[12]; declares myArray to be a reference to an array of 12 doubles
+    private String[] wordlist;
+    private int list_capacity;
+    
+    public WordList(int capacity){
+        wordlist= new String[capacity];
+        list_capacity= capacity;
+        size_of_list=0;
+    }
+    
+    public WordList(String[] arrayOfWords){
+        
+        int array_size= arrayOfWords.length ;
+        list_capacity=2*array_size;
+        wordlist = new String[2*array_size];
+        size_of_list=0;
+        
+        for(int i=0;i<array_size;i++){
+            insert(arrayOfWords[i]);
+        } 
+    }
+    
+    public int getSize(){
+        return size_of_list;
+    }
+    public int getCapacity(){
+        return list_capacity;
+    }
+    public String getWordAt(int i) throws ArrayIndexOutOfBoundsException{
+        if( 0 < i && i < getSize()-1){
+            return wordlist[i];
+        }
+        else{
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        
+    }
+    
+    public void insert(String newword){
+        //if inserting at the middle, needs to shift the entire list
+        
+        // find if the word does not exist in WordList
+        if(this.find(newword) == -1){
+            
+            //if wordlist full
+            //wordlist is doubled in size, and contents copied to new wordlist
+            if( size_of_list == list_capacity){
+                list_capacity=2*list_capacity;
+                
+                String temp_wordlist[]=wordlist;
+                wordlist = new String[2*list_capacity];
+                for(int i=0;i<size_of_list;i++){
+                    wordlist[i]=temp_wordlist[i];
+                }
+            }
+            
+            //normal insertion
+            if(size_of_list != 0){
+                boolean inserted = false;
+                int i = size_of_list-1;
+                
+                while(i >=0 && inserted == false){
+                    //run while loop until first element which newword should
+                    //be after in order is found, or to first list element
+                    //Traverses list from end to start
+                    
+                    // handles the case newword to be inserted at the end
+                    if(i==size_of_list-1 && newword.compareTo(wordlist[i]) >0){
+                        wordlist[i+1] = newword;
+                        this.size_of_list++;
+                        return;
+                    }
+                    
+                    // handles the case newword to be inserted at the start
+                    if(i==0 && newword.compareTo(wordlist[i]) < 0){
+                        wordlist[i+1]=wordlist[i];
+                        wordlist[i]=newword;
+                        this.size_of_list++;
+                        return;
+                    }
+                    
+                    if( newword.compareTo(wordlist[i]) < 0 ){
+                        //newword is before the current element i
+                        
+                        //shift current element to the right
+                        //current element will be overwritten in next iteration
+                        wordlist[i+1]=wordlist[i];
+                        if(i==0){
+                           wordlist[i]=newword; 
+                        }
+                        i--;
+                        
+                    }
+                    else{
+                        //first element which newword should be after is found
+                        wordlist[i+1] = newword;
+                        inserted =true;
+                        this.size_of_list++;
+                        return;
+                    }
+                }
+            }
+            
+            //list contains no words
+            else{
+                wordlist[0]=newword;
+                size_of_list++;
+                return;
+            } 
+        }
+        
+    }
+    
+    
+    public int find(String word){
+        word.compareTo(word);
+        int middle, low=0, high=this.getSize()-1;
+        
+        
+        // to avoid null error
+        if(size_of_list ==0){
+            return -1;
+        }
+        while( low <= high ){
+            middle = (low + high)/2;
+            if(wordlist[middle]== null){
+                return -1;
+            }
+
+            if( wordlist[middle].compareTo(word) == 0 )
+                return middle;
+            // if we are here then key != array[middle] 
+            if( wordlist[middle].compareTo(word)<0)
+                low = middle +1; 
+            else/* array[middle] > key */
+                high = middle -1; 
+        }return -1;
+    }
+    
+    public void remove(String word){
+        int word_index = find(word);
+        
+        if( word_index != -1){
+            for(int i=word_index;i<size_of_list-1;i++){
+                wordlist[i]=wordlist[i+1];
+            }
+            //remove last element from list,update size
+            wordlist[size_of_list-1]=null;
+            size_of_list=size_of_list -1 ;
+        }
+    }
+    
+    public WordList sublist(char init, char fin){
+        //use twice as much capactity as needed
+        int sublistLength = this.countInRange(init,fin);
+        
+        //a temporailry holds sublist length
+        int a=0;
+        int p=0;
+        if(sublistLength <= 0 ){
+            a=2*this.list_capacity+1;
+        }
+        else{
+            a=2*sublistLength;
+            
+        }
+        
+        WordList sublist = new WordList(a);
+        
+        for(int i =0;i<size_of_list;i++){
+            if(init <= wordlist[i].charAt(0) && wordlist[i].charAt(0) <= fin ){
+                sublist.insert(wordlist[i]);
+            }
+        }
+        return sublist;
+    }
+    public int countInRange( char init, char fin ){
+        int middle, low=0, high=this.size_of_list-1;
+        
+        //solve the trivial case where list is empty
+        if(this.size_of_list == 0 ){
+            return 0;
+        }
+        
+        int Start =0;
+        int End =0;
+        //find the first element with init
+        // prev < init is true
+        
+        
+        
+        while( low <= high ){
+            middle = (low + high)/2;
+            
+            //handler for case first init is the first
+            if(middle ==0 &&  wordlist[middle].charAt(0) >= init ){
+                Start = 0;
+                low=high+1;
+            }
+            
+            //first init is found
+            else if( init >  wordlist[middle-1].charAt(0) && wordlist[middle].charAt(0) >= init ){
+                Start = middle;
+                low=high+1;
+            }
+            // if we are here then key !== array[middle]
+            //look right
+            else if(wordlist[middle].charAt(0) < init ){
+                low = middle +1;
+            } 
+            //look left
+            else/* array[middle] > key */
+                high = middle -1; }
+        
+        
+        //find th elast element with fin
+        // next > fin is true
+        low=0;high=this.size_of_list-1;
+        while( low <= high ){
+            middle = (low + high)/2;
+            
+            //last fin is found
+            if( fin <  wordlist[middle+1].charAt(0) && wordlist[middle].charAt(0) <= fin ){
+                End = middle;
+                low=high+1;
+            }
+            
+            // if we are here then key !== array[middle]
+            //look right
+            else if(wordlist[middle].charAt(0) <= fin ){
+                low = middle +1;
+            } 
+            //look left
+            else/* array[middle] > key */
+                high = middle -1; }
+        
+        return End-Start+1;
+        
+        
+    }
+    public String toString(){
+        String list_str = new String();
+        for(int i =0;i<size_of_list;i++){
+            list_str = list_str + "\n" + wordlist[i];
+        }
+        
+        return list_str;
+    }
+}
